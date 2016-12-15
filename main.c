@@ -97,16 +97,19 @@ void eval(int instr) {
             break;
         }
         case PSH: {
+            printf("PSH\n");
             SP = SP + 1;
             IP = IP + 1;
             stack[SP] = instructions[IP];
             break;
         }
         case POP: {
+            printf("POP\n");
             SP = SP - 1;
             break;
         }
         case ADD: {
+            printf("ADD\n");
             registers[A] = stack[SP];
             SP = SP - 1;
 
@@ -121,6 +124,7 @@ void eval(int instr) {
             break;
         }
         case MUL: {
+            printf("MUL\n");
             registers[A] = stack[SP];
             SP = SP - 1;
 
@@ -135,6 +139,7 @@ void eval(int instr) {
             break;
         }
         case DIV: {
+            printf("DIV\n");
             registers[A] = stack[SP];
             SP = SP - 1;
 
@@ -149,6 +154,7 @@ void eval(int instr) {
             break;
         }
         case SUB: {
+            printf("SUB\n");
             registers[A] = stack[SP];
             SP = SP - 1;
 
@@ -163,16 +169,19 @@ void eval(int instr) {
             break;
         }
         case SLT: {
+            printf("SLT\n");
             SP = SP - 1;
             stack[SP] = stack[SP+1] < stack[SP];
             break;
         }
         case MOV: {
+            printf("MOV\n");
             registers[instructions[IP + 2]] = registers[instructions[IP + 1]];
             IP = IP + 2;
             break;
         }
         case SET: {
+            printf("SET\n");
             registers[instructions[IP + 1]] = instructions[IP + 2];
             IP = IP + 2;
             break;
@@ -183,6 +192,7 @@ void eval(int instr) {
             break;
         }
         case IF: {
+            printf("IF\n");
             if (registers[instructions[IP + 1]] == instructions[IP + 2]) {
                 IP = instructions[IP + 3];
                 is_jmp = true;
@@ -193,6 +203,7 @@ void eval(int instr) {
             break;
         }
         case IFN: {
+            printf("IFN\n");
             if (registers[instructions[IP + 1]] != instructions[IP + 2]) {
                 IP = instructions[IP + 3];
                 is_jmp = true;
@@ -203,12 +214,14 @@ void eval(int instr) {
             break;
         }
         case GLD: {
+            printf("GLD\n");
             SP = SP + 1;
             IP = IP + 1;
             stack[SP] = registers[instructions[IP]];
             break;
         }
         case GPT: {
+            printf("GPT\n");
             registers[instructions[IP + 1]] = stack[SP];
             IP = IP + 1;
             break;
@@ -251,10 +264,11 @@ int main(int argc, char** argv) {
         i++;
         if (i >= instruction_space) {
             instruction_space *= 2;
-            instructions = realloc(instructions, sizeof(*instructions) * instruction_space); // double size
+            // double size
+            instructions = realloc(instructions, sizeof(*instructions) * instruction_space);
         }
     }
-    
+
     // set 'instruction_count' to number of instructions read
     instruction_count = i;
 
